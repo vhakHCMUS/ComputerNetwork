@@ -59,8 +59,10 @@ while True:
 
     elif cmd[0] == 'proc':
         if cmd[1] == 'list':
-            proc.ListGet()
-    
+            procList = proc.ListGet()
+            for i in procList:
+                print(f'{i[0]:<10}{i[1]}')
+
     elif cmd[0] == 'shutdown':
         Power.shutdown()
     
