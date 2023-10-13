@@ -2,7 +2,8 @@ import wmi
  
 # List all running processes
 def ListGet():
+    res = []
     f = wmi.WMI()
-    print("Process name")
     for process in f.Win32_Process():
-        print(f"{process.ProcessId:<10} {process.Name}") 
+        res.append([process.ProcessId, process.Name])
+    return res
