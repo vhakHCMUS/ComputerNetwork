@@ -11,7 +11,7 @@ class EmailHandler():
     def __init__(self):
         self.mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
         self.mail.login(EMAIL, PASSWORD)
-    def read_emails(self):
+    def readLastestEmail(self):
         self.mail.select("inbox")
 
         _, data = self.mail.search(None, "UNSEEN")
@@ -30,11 +30,11 @@ class EmailHandler():
         subject, encoding = decode_header(msg["Subject"])[0]
         subject = subject if encoding is None else subject.decode(encoding)
 
+        content = ""
         for part in msg.walk():
             if part.get_content_type() == "text/plain":
                 body = part.get_payload(decode=True)
                 content += body.decode("utf-8")
-
         return subject, content
 
     

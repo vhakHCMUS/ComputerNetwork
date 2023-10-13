@@ -7,10 +7,16 @@ screenshot
 
 ## Keylogger
 ```bash
-# The keylogger will run in 5 minutes by default
+# the keylogger will run in 5 minutes by default
 keylog
-# Add argument -t (replace TIME with time to execute in second):
+# add argument -t (replace TIME with time to execute in second) to execute for custom time:
 keylog -t TIME
+# add argument -l to receive typed text on the server instead of list of keys
+keylog -l
+# add argument -both to receive both the list of keys and the text
+keylog -both
+# example
+keylog -t 500 -both
 ```
 
 ## Application interaction
@@ -22,6 +28,8 @@ app list
 app list -all
 # add argument -path to list the path to the app
 app list -path
+# Using both
+app list -all -path
 ```
 
 To start/execute an app:

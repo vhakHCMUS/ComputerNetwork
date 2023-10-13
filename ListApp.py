@@ -1,8 +1,10 @@
 import subprocess
 import os
 
-def ListApp():
-    cmd = 'powershell "gps | where {$_.MainWindowTitle } | select Description,Id,Path'
+def ListApp(path):
+    cmd = 'powershell "gps | where {$_.MainWindowTitle } | select Description'
+    if path:
+        cmd += ',Path'
     proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     ans = []
     for line in proc.stdout:

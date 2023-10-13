@@ -13,3 +13,4 @@
 ## Devs
 - quick command to install all external libraries
 - compile to .exe
+- detect incorrect email syntax
