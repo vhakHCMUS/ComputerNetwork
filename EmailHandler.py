@@ -3,6 +3,7 @@ import email
 import smtplib
 from email.header import decode_header
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 import os
 
@@ -47,11 +48,16 @@ class EmailHandler():
         return subject, content, sender
     
     def sendEmail(self, to, subject, content):
-        msg = f"Subject: {subject}\n\n{content}"
+        msg = MIMEMultipart()
+        msg['From'] = EMAIL
+        msg["To"] = to
+        msg["Subject"] = subject
+        content = MIMEText(content.encode("utf-8"), 'plain', 'UTF-8')
+        msg.attach(content)
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         server.starttls()
         server.login(EMAIL, PASSWORD)
-        server.sendmail(EMAIL, to, msg)
+        server.sendmail(EMAIL, to, msg.as_string())
         server.quit()
 
     def sendPicture(self, to, subject, filename):

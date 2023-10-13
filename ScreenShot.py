@@ -1,7 +1,7 @@
 import pyautogui
 import datetime
 
-def capture(screenshotFilename = ""): 
+def capture(): 
     # Get the current date and time to use in the screenshot filename
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y-%m-%d %H-%M-%S")
@@ -14,3 +14,4 @@ def capture(screenshotFilename = ""):
     screenshot.save(screenshotFilename)
 
     print(f"Screenshot saved as {screenshotFilename}")
+    return screenshotFilename
