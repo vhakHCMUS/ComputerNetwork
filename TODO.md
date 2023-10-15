@@ -4,6 +4,7 @@
 - search for app in computer to execute
 - register app to execute
 - keylogger result statistic
+- use pandas to display tables
 
 
 ## GUI

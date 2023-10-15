@@ -47,48 +47,79 @@ class EmailHandler():
         sender = msg["From"].split()[-1].strip("<>")
         return subject, content, sender
     
-    def sendEmail(self, to, subject, content):
+    def sendMail(self, to, subject, content = '', imageAttach = None):
         msg = MIMEMultipart()
         msg['From'] = EMAIL
         msg["To"] = to
         msg["Subject"] = subject
-        content = MIMEText(content.encode("utf-8"), 'plain', 'UTF-8')
-        msg.attach(content)
+        html_content = '<br>'.join(content.splitlines())
+        html = '''\
+            <!DOCTYPE html>
+                <html lang="en">
+
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+                </head>
+
+                <body>
+                    <div class="e-mail"style="background-color: #bfb8ad; padding: 20px;" >
+                        <div class="container " style = "height: 100vh;"  >
+                            <div class ="inner-wrap" style="background: white; ">
+                                <div class="row"></div>
+                                    <div class="col-xl-12" style="background-color: white; padding: 10px; text-align:  left;">
+                                        <div>
+                                            <img src="https://i.imgur.com/VFEtJYz.png" height="60" width="250"/>
+                                        </div>
+                                        <hr>
+                                        <div class="title" style="text-align: center;">
+                                            <h1>Remote control by Email</h1>
+                                            <p>
+            '''
+        html += subject
+        html += '''
+                                            </p>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="content" style="position: relative;">
+                                            <div style="position: absolute; left: 50%; transform: translate(-50%, -50%);">
+                                                <p>
+            '''
+        html += html_content
+        if imageAttach is not None:
+            html += '''<div style="text-align: center;"><br> <img src="cid:image" height="500" padding="20"/></div> <br> '''
+        html += '''
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p style="text-align: center;">
+                                    fit@hcmus <br>
+                                    This project is built by students from 22CLC02 for the Computer Network (CSC10008) course. <br>
+                                    More information can be found <a href="https://github.com/vhakHCMUS/ComputerNetwork">here</a>. <br>
+                                    If you need any support, please send an email to nhminh22@fitus.edu.vn
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+
+                </html>
+        '''
+        htmlRead = MIMEText(html, 'html')
+        msg.attach(htmlRead)
+        if imageAttach is not None:
+            with open(imageAttach, 'rb') as file:
+                image = MIMEImage(file.read())
+                image.add_header('Content-ID','image')
+                msg.attach(image)
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         server.starttls()
         server.login(EMAIL, PASSWORD)
         server.sendmail(EMAIL, to, msg.as_string())
         server.quit()
-
-    def sendPicture(self, to, subject, filename):
-        # Create a MIME object for the email
-        msg = MIMEMultipart()
-        msg["From"] = EMAIL
-        msg["To"] = to
-        msg["Subject"] = subject
-
-        # Attempt to determine the script directory
-        script_directory = os.path.dirname(os.path.abspath(__file__)) if __file__ else ""
-
-        if not script_directory:
-            # Handle the case where the script's directory couldn't be determined
-            print("Warning: Unable to determine script directory.")
-            return
-
-        # Construct the full file path for the image
-        full_filename = os.path.join(script_directory, filename)
-
-        # Attach the picture to the email
-        with open(full_filename, "rb") as file:
-            image = MIMEImage(file.read(), name=os.path.basename(full_filename))
-            msg.attach(image)
-
-        # Connect to the SMTP server and send the email
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
-        server.starttls()
-        server.login(EMAIL, PASSWORD)
-        server.sendmail(EMAIL, to, msg.as_string())
-        server.quit()
-
-
-    
