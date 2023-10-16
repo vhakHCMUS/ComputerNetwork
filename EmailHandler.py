@@ -51,8 +51,6 @@ class EmailHandler():
         msg = MIMEMultipart()
         msg['From'] = EMAIL
         msg["To"] = to
-        msg["Subject"] = subject
-        html_content = '<br>'.join(content.splitlines())
         html = '''\
             <!DOCTYPE html>
                 <html lang="en">
@@ -62,14 +60,26 @@ class EmailHandler():
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+                    <style>
+                    table {
+                        margin: 0 auto;
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        width: 100%;
+                        border: 1px solid #ddd;
+                    }
+                    tr,td {
+                        padding: 5px
+                    }
+                    </style>
                 </head>
 
                 <body>
-                    <div class="e-mail"style="background-color: #bfb8ad; padding: 20px;" >
-                        <div class="container " style = "height: 100vh;"  >
-                            <div class ="inner-wrap" style="background: white; ">
+                    <div class="e-mail"style="background-color: #bfb8ad; padding: 10px " >
+                        <div class="container ">
+                            <div class ="inner-wrap" style="background: white; padding: 10px ">
                                 <div class="row"></div>
-                                    <div class="col-xl-12" style="background-color: white; padding: 10px; text-align:  left;">
+                                    <div class="col-xl-12" style="background-color: white; text-align:  left;">
                                         <div>
                                             <img src="https://i.imgur.com/VFEtJYz.png" height="60" width="250"/>
                                         </div>
@@ -86,19 +96,18 @@ class EmailHandler():
                                         <hr>
 
                                         <div class="content" style="position: relative;">
-                                            <div style="position: absolute; left: 50%; transform: translate(-50%, -50%);">
-                                                <p>
+                                            <p>
             '''
-        html += html_content
+        html += content
         if imageAttach is not None:
             html += '''<div style="text-align: center;"><br> <img src="cid:image" height="500" padding="20"/></div> <br> '''
         html += '''
-                                                </p>
-                                            </div>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                                 <p style="text-align: center;">
+                                    <br><br>
                                     fit@hcmus <br>
                                     This project is built by students from 22CLC02 for the Computer Network (CSC10008) course. <br>
                                     More information can be found <a href="https://github.com/vhakHCMUS/ComputerNetwork">here</a>. <br>

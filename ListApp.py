@@ -1,17 +1,24 @@
 import subprocess
+import pandas
 import os
+import utils
 
-def ListApp(path):
-    cmd = 'powershell "gps | where {$_.MainWindowTitle } | select Description'
-    if path:
-        cmd += ',Path'
-    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-    ans = []
-    for line in proc.stdout:
-        if not line.decode()[0].isspace():
-            ans.append(line.decode().rstrip())
-    ans.append("end")
-    return ans
+def ListApp(havePath):
+    ans = {
+        'Description':[],
+        'Id':[],
+    }
+    if havePath:
+        ans['Path'] = []
+    for i in ans:
+        cmd = 'powershell "gps | where {$_.MainWindowTitle } | select '
+        cmd += f'{i}'
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+        for line in proc.stdout:
+            ans[i].append(line.decode().rstrip())
+        ans[i] = ans[i][3:]
+    table = utils.dicToHTML(ans)
+    return table
 
 def OpenApp(path):
     # eg path: C:\Users\Admin\Desktop\ComputerNetwork\app_name.exe

