@@ -2,6 +2,7 @@ import subprocess
 import pandas
 import os
 import utils
+import winapps
 
 def ListApp(havePath):
     ans = {
@@ -17,6 +18,28 @@ def ListApp(havePath):
         for line in proc.stdout:
             ans[i].append(line.decode().rstrip())
         ans[i] = ans[i][3:]
+    table = utils.dicToHTML(ans)
+    return table
+
+def ListAllApp(command):
+    ans = {
+        'Applications':[]
+    }
+    if (command == '-version'):
+        ans['Version'] = []
+    if (command == '-path'):
+        ans['Path'] = []
+
+    for item in winapps.list_installed():
+        appName = item.name
+        version = item.version
+        path = item.install_location
+        date = item.install_date
+        ans['Applications'].append(appName)
+        if (command == '-version'):
+            ans['Version'].append(version)
+        elif (command == '-path'):
+            ans['Path'].append(path)
     table = utils.dicToHTML(ans)
     return table
 
