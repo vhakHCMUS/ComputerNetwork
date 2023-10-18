@@ -4,8 +4,8 @@
 - search for app in computer to execute
 - register app to execute
 - keylogger result statistic
-- use pandas to display tables
-
+- exit function
+- attach output file
 
 ## GUI
 - gui to register client email

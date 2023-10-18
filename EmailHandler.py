@@ -5,7 +5,6 @@ from email.header import decode_header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
-import os
 
 IMAP_SERVER = "imap.gmail.com"
 IMAP_PORT = 993

