@@ -11,6 +11,7 @@ import Power
 
 DEFAULT_KEYLOG_TIME = 300
 
+RunningMainLoop = False
 def run_main_loop():
     global RunningMainLoop
     RunningMainLoop = True
@@ -122,14 +123,32 @@ def stop_main_loop():
 root = tk.Tk()
 root.title("Main Loop Control")
 root.geometry("800x600")
+root.configure(bg="pink")
 
 # Create "Start" button
-start_button = tk.Button(root, text="Start Main Loop", command=start_main_loop)
+start_button = tk.Button(root, text="Start", command=start_main_loop)
 start_button.pack()
+start_button.place(x = 250, y = 150)
 
 # Create "Stop" button
-stop_button = tk.Button(root, text="Stop Main Loop", command=stop_main_loop)
+stop_button = tk.Button(root, text="Stop", command=stop_main_loop)
 stop_button.pack()
+stop_button.place(x = 350, y = 150)
 
+# Create "Status" label
+text_box = tk.Text(root, height=5, width=40)
+text_box.pack()
+text_box.place(x = 250, y = 200)
+
+def update_text():
+    global RunningMainLoop
+    if RunningMainLoop:
+        text_box.delete(1.0, tk.END)  # Clear the existing text
+        text_box.insert(tk.END, "The server is running.")
+    else:
+        text_box.delete(1.0, tk.END)
+        text_box.insert(tk.END, "The server is not running.")
+    root.after(1000, update_text)  # Update the text every 1000 milliseconds (1 second)
 # Start the Tkinter main loop
+update_text()
 root.mainloop()
