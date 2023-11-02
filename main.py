@@ -8,6 +8,8 @@ import ListApp as app
 import ListProcess as proc
 import ScreenShot
 import Power
+from tkinter import *
+from functools import partial
 
 DEFAULT_KEYLOG_TIME = 300
 
@@ -119,6 +121,11 @@ def stop_main_loop():
         os.system('cls')
         print("Main loop successfully stopped.")
 
+# Function to validate login
+def validateLogin(username, password):
+	print("username entered :", username.get())
+	print("password entered :", password.get())
+	return
 # Create the main Tkinter window
 root = tk.Tk()
 root.title("Main Loop Control")
@@ -139,6 +146,21 @@ stop_button.place(x = 350, y = 150)
 text_box = tk.Text(root, height=5, width=40)
 text_box.pack()
 text_box.place(x = 250, y = 200)
+
+# Username label and text entry box
+usernameLabel = Label(root, text="User Name").grid(row=0, column=0)
+username = StringVar()
+usernameEntry = Entry(root, textvariable=username).grid(row=0, column=1)  
+
+# Password label and password entry box
+passwordLabel = Label(root,text="Password").grid(row=1, column=0)  
+password = StringVar()
+passwordEntry = Entry(root, textvariable=password, show='*').grid(row=1, column=1)  
+
+validateLogin = partial(validateLogin, username, password)
+
+# Login button
+loginButton = Button(root, text="Login", command=validateLogin).grid(row=4, column=0)  
 
 def update_text():
     global RunningMainLoop
