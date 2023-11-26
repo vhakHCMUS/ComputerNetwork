@@ -9,7 +9,7 @@ from email.mime.image import MIMEImage
 IMAP_SERVER = "imap.gmail.com"
 IMAP_PORT = 993
 EMAIL = "networkdummy2023@gmail.com"
-PASSWORD = "icin ujtn kyfa oyje"
+PASSWORD = "icin ujtn kyfa oyje"    
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 
