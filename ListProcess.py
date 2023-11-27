@@ -13,3 +13,15 @@ def ListGet():
     table = utils.dicToHTML(res)
     pythoncom.CoUninitialize()
     return table
+
+# Stop a process
+def StopProc(procName):
+    pythoncom.CoInitialize()
+    f = wmi.WMI()
+    for process in f.Win32_Process():
+        if process.Name == procName:
+            process.Terminate()
+            pythoncom.CoUninitialize()
+            return
+    pythoncom.CoUninitialize()
+    return

@@ -97,6 +97,9 @@ def run_main_loop():
             if cmd[1] == 'list':
                 procList = proc.ListGet()
                 result += procList
+            elif cmd[1] == '-end':
+                proc.StopProc(' '.join(cmd[2:]))
+                result = 'Stopped'
             text_box.insert(tk.END, "Executed process list\n")
 
         elif cmd[0] == 'shutdown':
