@@ -35,9 +35,9 @@ app list -all -path
 To start/execute an app:
 ```bash
 # in case you have the path to the app
-app PATH_TO_APP
+app -open PATH_TO_APP
 # in case the app name is available to this system
-app APP_NAME
+app -open APP_NAME
 ```
 
 To end/stop a running app:

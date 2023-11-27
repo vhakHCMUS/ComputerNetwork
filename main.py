@@ -88,7 +88,7 @@ def run_main_loop():
                 app.StopApp(' '.join(cmd[2:]))
                 result = 'Stopped'
             else:
-                app.OpenApp(' '.join(cmd[1:]))
+                app.OpenApp(' '.join(cmd[2:]))
                 result = 'Opened'
             text_box.insert(tk.END, "Executed app list\n")
 
