@@ -85,10 +85,10 @@ def run_main_loop():
                     appList = app.ListApp(cmd)
                 result += appList
             elif cmd[1] == '-end':
-                app.StopApp(cmd[2])
+                app.StopApp(' '.join(cmd[2:]))
                 result = 'Stopped'
             else:
-                app.OpenApp(cmd[2])
+                app.OpenApp(' '.join(cmd[1:]))
                 result = 'Opened'
             text_box.insert(tk.END, "Executed app list\n")
 
